@@ -30,5 +30,9 @@ func Invoke(numRows int) (any, error) {
 		return nil, err
 	}
 
+	if err := FetchAll(client); err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
