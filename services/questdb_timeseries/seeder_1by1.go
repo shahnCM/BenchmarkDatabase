@@ -99,8 +99,7 @@ func Seed(conn *pgx.Conn, seedAmount int) error {
 				log.Fatal(err)
 			}
 
-			err = client.Flush(ctx)
-			if err != nil {
+			if err = client.Flush(ctx); err != nil {
 				log.Fatal(err)
 			}
 
@@ -151,7 +150,7 @@ func Seed(conn *pgx.Conn, seedAmount int) error {
 	// Calculate the duration
 	duration := time.Since(startTime)
 
-	fmt.Println("> Rows inserted successfully")
+	fmt.Printf("\n> Rows inserted successfully\n")
 	fmt.Println("> Duration: ", duration)
 
 	return nil

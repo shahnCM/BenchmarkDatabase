@@ -1,7 +1,6 @@
 package mongodb_timeseries
 
 import (
-	"DbBenchmark/utils"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -12,6 +11,8 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+
+	"DbBenchmark/utils"
 )
 
 func Seed(client *mongo.Client, seedAmount int) error {
@@ -64,7 +65,7 @@ func Seed(client *mongo.Client, seedAmount int) error {
 	// Calculate the duration
 	duration := time.Since(startTime)
 
-	fmt.Println("> Documents inserted successfully")
+	fmt.Printf("\n> Rows inserted successfully\n")
 	fmt.Println("> Duration: ", duration)
 
 	return nil

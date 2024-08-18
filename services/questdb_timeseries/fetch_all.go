@@ -4,12 +4,23 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/jackc/pgx/v4"
 )
 
 func FetchAll(conn *pgx.Conn) error {
+
+	// Fetch the environment variable
+	fetchLimitStr := os.Getenv("FETCH_LIMIT")
+
+	// Convert it to an integer
+	fetchLimit, err := strconv.Atoi(fetchLimitStr)
+	if err != nil {
+		log.Fatalf("Failed to parse FETCH_LIMIT: %v", err)
+	}
 
 	// set databasse name
 	databaseTable := "cpu_usage_logs"
@@ -18,24 +29,27 @@ func FetchAll(conn *pgx.Conn) error {
 		SELECT logged_at, cpu_id, usage_by_user, usage_by_system, usage_by_idle, 
 		       device_id, app_id, user_id, ip_address, mac_address, dump
 		FROM %s
-		LIMIT 100000;
-	`, databaseTable)
+		LIMIT %d;
+	`, databaseTable, fetchLimit)
 
 	// Start measuring time
 	startTime := time.Now()
-
 	// Execute the query
-	rows, err := conn.Query(context.TODO(), query)
+	rows, err := conn.Query(context.Background(), query)
 	if err != nil {
 		log.Fatalf("Query failed: %v\n", err)
 	}
-	rows.Close()
-
 	// Calculate the duration
 	duration := time.Since(startTime)
+	defer rows.Close()
 
-	fmt.Println("> Total count of rows: 1000000")
-	fmt.Println("> Fetched 100000 rows")
+	var rowsLen int
+	for rows.Next() {
+		rowsLen++
+	}
+
+	fmt.Printf("\n> Fetched %d rows\n", fetchLimit)
+	fmt.Printf("> Fetched %d rows\n", rowsLen)
 	fmt.Println("> Fetch Duration: ", duration)
 
 	return nil
