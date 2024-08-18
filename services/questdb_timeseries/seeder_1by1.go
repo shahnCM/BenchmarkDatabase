@@ -67,7 +67,7 @@ func Seed(conn *pgx.Conn, seedAmount int) error {
 	}
 
 	if useInfluxLine {
-		ctx := context.TODO()
+		ctx := context.Background()
 		client, err := questdb.LineSenderFromEnv(ctx)
 		if err != nil {
 			log.Fatalf("Failed to initiate INFLUX LINE PROTOCOL: %v", err)
@@ -96,11 +96,11 @@ func Seed(conn *pgx.Conn, seedAmount int) error {
 				StringColumn("dump", dumpString).
 				At(ctx, cpuUsageTs)
 			if err != nil {
-				log.Fatal(err)
+				log.Println(err)
 			}
 
 			if err = client.Flush(ctx); err != nil {
-				log.Fatal(err)
+				log.Println(err)
 			}
 
 			// Print progress
@@ -112,7 +112,7 @@ func Seed(conn *pgx.Conn, seedAmount int) error {
 		// Calculate the duration
 		duration := time.Since(startTime)
 
-		fmt.Println("> Rows inserted successfully")
+		fmt.Printf("\n> Rows inserted successfully\n")
 		fmt.Println("> Duration: ", duration)
 
 		return nil
