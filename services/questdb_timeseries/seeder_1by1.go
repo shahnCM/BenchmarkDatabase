@@ -76,6 +76,8 @@ func Seed(conn *pgx.Conn, seedAmount int) error {
 
 		// Start measuring time
 		startTime := time.Now()
+
+		// Seed
 		for i := 1; i <= seedAmount; i++ {
 			cpuUsageTs, err := time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 			if err != nil {
