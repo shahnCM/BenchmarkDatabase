@@ -9,6 +9,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"DbBenchmark/services/mongodb_timeseries"
+	"DbBenchmark/services/questdb_timeseries"
 )
 
 func main() {
@@ -58,7 +59,13 @@ func main() {
 			log.Println(result)
 		}
 	case "QuestDb Timeseries":
-		insertIntoQuestDB(numRows)
+		result, err := questdb_timeseries.Invoke(numRows)
+		if err != nil {
+			log.Println(err)
+		}
+		if result != nil {
+			log.Println(result)
+		}
 	default:
 		log.Fatalf("Unsupported database choice: %s", selectedDB)
 	}

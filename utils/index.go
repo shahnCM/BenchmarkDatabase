@@ -14,5 +14,5 @@ func PrintProgressBar(current, total int) {
 		progressBar += " "
 	}
 	progressBar += "]"
-	fmt.Printf("\rProgress: %s %d%%", progressBar, int(progress))
+	fmt.Printf("\r> Progress: %s %d%%", progressBar, int(progress))
 }

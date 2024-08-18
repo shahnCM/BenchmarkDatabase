@@ -1,6 +1,7 @@
 package mongodb_timeseries
 
 import (
+	"DbBenchmark/utils"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -55,7 +56,9 @@ func Seed(client *mongo.Client, seedAmount int) error {
 		}
 
 		// Update the progress bar
-		// go utils.PrintProgressBar(i, seedAmount)
+		if i%1000 == 0 {
+			go utils.PrintProgressBar(i, seedAmount)
+		}
 	}
 
 	// Calculate the duration
