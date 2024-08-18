@@ -1,0 +1,3 @@
+- Reaname the .env.exammple to .env
+- Update the .env according to your environment
+- run go run main.go or build it & run the build
