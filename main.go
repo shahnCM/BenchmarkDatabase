@@ -10,6 +10,7 @@ import (
 
 	"DbBenchmark/services/mongodb_timeseries"
 	"DbBenchmark/services/questdb_timeseries"
+	"DbBenchmark/services/timescaledb_timeseries"
 )
 
 func main() {
@@ -20,7 +21,7 @@ func main() {
 	}
 
 	// Define choices for database selection
-	dbChoices := []string{"MongoDb Timeseries", "QuestDb Timeseries"}
+	dbChoices := []string{"MongoDb Timeseries", "QuestDb Timeseries", "TimescaleDb Timeseries"}
 
 	// Prompt user to select a database for benchmarking
 	var selectedDB string
@@ -60,6 +61,14 @@ func main() {
 		}
 	case "QuestDb Timeseries":
 		result, err := questdb_timeseries.Invoke(numRows)
+		if err != nil {
+			log.Println(err)
+		}
+		if result != nil {
+			log.Println(result)
+		}
+	case "TimescaleDb Timeseries":
+		result, err := timescaledb_timeseries.Invoke(numRows)
 		if err != nil {
 			log.Println(err)
 		}
