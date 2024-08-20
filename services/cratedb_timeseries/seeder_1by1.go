@@ -1,4 +1,4 @@
-package timescaledb_timeseries
+package cratedb_timeseries
 
 import (
 	"context"

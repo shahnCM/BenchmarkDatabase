@@ -8,6 +8,7 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/joho/godotenv"
 
+	"DbBenchmark/services/cratedb_timeseries"
 	"DbBenchmark/services/mongodb_timeseries"
 	"DbBenchmark/services/questdb_timeseries"
 	"DbBenchmark/services/timescaledb_timeseries"
@@ -21,7 +22,7 @@ func main() {
 	}
 
 	// Define choices for database selection
-	dbChoices := []string{"MongoDb Timeseries", "QuestDb Timeseries", "TimescaleDb Timeseries"}
+	dbChoices := []string{"MongoDb Timeseries", "QuestDb Timeseries", "TimescaleDb Timeseries", "CrateDb Timeseries"}
 
 	// Prompt user to select a database for benchmarking
 	var selectedDB string
@@ -69,6 +70,14 @@ func main() {
 		}
 	case "TimescaleDb Timeseries":
 		result, err := timescaledb_timeseries.Invoke(numRows)
+		if err != nil {
+			log.Println(err)
+		}
+		if result != nil {
+			log.Println(result)
+		}
+	case "CrateDb Timeseries":
+		result, err := cratedb_timeseries.Invoke(numRows)
 		if err != nil {
 			log.Println(err)
 		}

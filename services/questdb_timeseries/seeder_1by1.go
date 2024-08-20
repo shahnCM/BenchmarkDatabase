@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 	"strconv"
 	"time"
 
@@ -19,38 +18,41 @@ import (
 func Seed(conn *pgx.Conn, seedAmount int) error {
 
 	// WorkingDir path
-	wd, err := os.Getwd()
-	if err != nil {
-		log.Fatalf("Error getting working directory: %v", err)
-	}
+	// wd, err := os.Getwd()
+	// if err != nil {
+	// 	log.Fatalf("Error getting working directory: %v", err)
+	// }
 
 	// Parse the json file
-	docPath := filepath.Join(wd, "doc.json")
-	file, err := os.ReadFile(docPath)
-	if err != nil {
-		return fmt.Errorf("failed to read doc.json: %v", err)
-	}
+	// docPath := filepath.Join(wd, "doc.json")
+	// file, err := os.ReadFile(docPath)
+	// if err != nil {
+	// 	return fmt.Errorf("failed to read doc.json: %v", err)
+	// }
 
 	// Unmarshal to doc
-	var doc map[string]any
-	err = json.Unmarshal(file, &doc)
-	if err != nil {
-		return fmt.Errorf("failed to parse JSON: %v", err)
-	}
+	// var doc map[string]any
+	// err = json.Unmarshal(file, &doc)
+	// if err != nil {
+	// 	return fmt.Errorf("failed to parse JSON: %v", err)
+	// }
+
+	// Random Json Data
+	doc := utils.RandomizeJSON()
 
 	tableName := "cpu_usage_logs"
 
 	// Prepare data
-	loggedAt := time.Now().Format(time.RFC3339) // Format for QuestDB timestamp
-	cpuID := "1"                                // Example value, adjust as needed
-	usageUser := 0.5                            // Example value, adjust as needed
-	usageIdle := 0.3                            // Example value, adjust as needed
-	usageSystem := 0.2                          // Example value, adjust as needed
-	deviceID := "1"                             // Example value, adjust as needed
-	appID := "1"                                // Example value, adjust as needed
-	userID := "1"                               // Example value, adjust as needed
-	ipAddress := "192.168.1.1"                  // Example value, adjust as needed
-	macAddress := "00:00:00:00:00:00"           // Example value, adjust as needed
+	loggedAt := time.Now().Format(time.RFC3339)                // Format for timestamp
+	cpuID := utils.RandomString(5)                             // Example value, adjust as needed
+	deviceID := utils.RandomString(5)                          // Example value, adjust as needed
+	appID := utils.RandomString(5)                             // Example value, adjust as needed
+	userID := utils.RandomString(5)                            // Example value, adjust as needed
+	usageUser := utils.RandomDouble(0, 100)                    // Example value, adjust as needed
+	usageIdle := utils.RandomDouble(0, 100)                    // Example value, adjust as needed
+	usageSystem := utils.RandomDouble(0, 100)                  // Example value, adjust as needed
+	ipAddress := utils.RandomString(10) + "192.168.1.1"        // Example value, adjust as needed
+	macAddress := utils.RandomString(10) + "00:00:00:00:00:00" // Example value, adjust as needed
 
 	// Prepare dump data from JSON
 	dump, err := json.Marshal(doc)

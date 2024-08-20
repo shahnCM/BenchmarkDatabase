@@ -2,11 +2,8 @@ package mongodb_timeseries
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
-	"os"
-	"path/filepath"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -18,24 +15,27 @@ import (
 func Seed(client *mongo.Client, seedAmount int) error {
 
 	// WorkingDir path
-	wd, err := os.Getwd()
-	if err != nil {
-		log.Fatalf("Error getting working directory: %v", err)
-	}
+	// wd, err := os.Getwd()
+	// if err != nil {
+	// 	log.Fatalf("Error getting working directory: %v", err)
+	// }
 
 	// Parse the json file
-	docPath := filepath.Join(wd, "doc.json")
-	file, err := os.ReadFile(docPath)
-	if err != nil {
-		return fmt.Errorf("failed to read doc.json: %v", err)
-	}
+	// docPath := filepath.Join(wd, "doc.json")
+	// file, err := os.ReadFile(docPath)
+	// if err != nil {
+	// 	return fmt.Errorf("failed to read doc.json: %v", err)
+	// }
 
 	// Unmarshal to doc
-	var doc map[string]any
-	err = json.Unmarshal(file, &doc)
-	if err != nil {
-		return fmt.Errorf("failed to parse JSON: %v", err)
-	}
+	// var doc map[string]any
+	// err = json.Unmarshal(file, &doc)
+	// if err != nil {
+	// 	return fmt.Errorf("failed to parse JSON: %v", err)
+	// }
+
+	// Random Json Data
+	doc := utils.RandomizeJSON()
 
 	// Access the database and collection
 	database := client.Database("benchmark") // Replace with your database name
@@ -52,7 +52,7 @@ func Seed(client *mongo.Client, seedAmount int) error {
 
 	// seed
 	for i := 1; i < seedAmount; i++ {
-		if _, err = collection.InsertOne(context.TODO(), data); err != nil {
+		if _, err := collection.InsertOne(context.TODO(), data); err != nil {
 			log.Fatalf("Failed to insert document %d: %v", i, err)
 		}
 
