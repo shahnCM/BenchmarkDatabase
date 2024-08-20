@@ -32,29 +32,7 @@ func Seed(conn *pgx.Conn, seedAmount int) error {
 	// 	return fmt.Errorf("failed to parse JSON: %v", err)
 	// }
 
-	// Random Json Data
-	doc := utils.RandomizeJSON()
-
 	tableName := "cpu_usage_logs"
-
-	// Prepare data
-	loggedAt := time.Now().Format(time.RFC3339)                // Format for timestamp
-	cpuID := utils.RandomInt(1, 100)                           // Example value, adjust as needed
-	deviceID := utils.RandomInt(1, 100)                        // Example value, adjust as needed
-	appID := utils.RandomInt(1, 100)                           // Example value, adjust as needed
-	userID := utils.RandomInt(1, 100)                          // Example value, adjust as needed
-	usageUser := utils.RandomDouble(0, 100)                    // Example value, adjust as needed
-	usageIdle := utils.RandomDouble(0, 100)                    // Example value, adjust as needed
-	usageSystem := utils.RandomDouble(0, 100)                  // Example value, adjust as needed
-	ipAddress := utils.RandomString(10) + "192.168.1.1"        // Example value, adjust as needed
-	macAddress := utils.RandomString(10) + "00:00:00:00:00:00" // Example value, adjust as needed
-
-	// Prepare dump data from JSON
-	dump, err := json.Marshal(doc)
-	if err != nil {
-		return fmt.Errorf("failed to marshal dump data: %v", err)
-	}
-	dumpString := string(dump)
 
 	// Create insert query
 	insertQuery := fmt.Sprintf(`
@@ -72,6 +50,29 @@ func Seed(conn *pgx.Conn, seedAmount int) error {
 
 	// Seed the data
 	for i := 1; i <= seedAmount; i++ {
+
+		// Random Json Data
+		doc := utils.RandomizeJSON()
+
+		// Prepare data
+		loggedAt := time.Now().Format(time.RFC3339)                // Format for timestamp
+		cpuID := utils.RandomInt(1, 100)                           // Example value, adjust as needed
+		deviceID := utils.RandomInt(1, 100)                        // Example value, adjust as needed
+		appID := utils.RandomInt(1, 100)                           // Example value, adjust as needed
+		userID := utils.RandomInt(1, 100)                          // Example value, adjust as needed
+		usageUser := utils.RandomDouble(0, 100)                    // Example value, adjust as needed
+		usageIdle := utils.RandomDouble(0, 100)                    // Example value, adjust as needed
+		usageSystem := utils.RandomDouble(0, 100)                  // Example value, adjust as needed
+		ipAddress := utils.RandomString(10) + "192.168.1.1"        // Example value, adjust as needed
+		macAddress := utils.RandomString(10) + "00:00:00:00:00:00" // Example value, adjust as needed
+
+		// Prepare dump data from JSON
+		dump, err := json.Marshal(doc)
+		if err != nil {
+			return fmt.Errorf("failed to marshal dump data: %v", err)
+		}
+		dumpString := string(dump)
+
 		if _, err := conn.Exec(context.TODO(), insertQuery,
 			cpuID, userID, deviceID, appID,
 			ipAddress, macAddress,

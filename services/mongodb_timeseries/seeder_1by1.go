@@ -34,24 +34,25 @@ func Seed(client *mongo.Client, seedAmount int) error {
 	// 	return fmt.Errorf("failed to parse JSON: %v", err)
 	// }
 
-	// Random Json Data
-	doc := utils.RandomizeJSON()
-
 	// Access the database and collection
 	database := client.Database("benchmark") // Replace with your database name
 	collection := database.Collection("cpu_usage_logs")
-
-	// Prepare data
-	data := bson.D{
-		{Key: "logged_at", Value: time.Now()},
-		{Key: "metadata", Value: doc["metadata"]},
-	}
 
 	// Start measuring time
 	startTime := time.Now()
 
 	// seed
 	for i := 1; i < seedAmount; i++ {
+
+		// Random Json Data
+		doc := utils.RandomizeJSON()
+
+		// Prepare data
+		data := bson.D{
+			{Key: "logged_at", Value: time.Now()},
+			{Key: "metadata", Value: doc["metadata"]},
+		}
+
 		if _, err := collection.InsertOne(context.TODO(), data); err != nil {
 			log.Fatalf("Failed to insert document %d: %v", i, err)
 		}

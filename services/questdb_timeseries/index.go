@@ -33,5 +33,9 @@ func Invoke(numRows int) (any, error) {
 		return nil, err
 	}
 
+	if err := FilterQuery(conn); err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
