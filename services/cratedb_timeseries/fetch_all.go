@@ -50,7 +50,7 @@ func FetchAll(conn *pgx.Conn) error {
 		rowsLen++
 	}
 
-	fmt.Printf("\n> Fetched %d rows\n", fetchLimit)
+	fmt.Printf("\n> Requested %d rows\n", fetchLimit)
 	fmt.Printf("> Fetched %d rows\n", rowsLen)
 	fmt.Println("> Fetch Duration: ", duration)
 

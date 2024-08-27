@@ -22,21 +22,21 @@ func Invoke(numRows int) (any, error) {
 	}
 	defer client.Disconnect(context.TODO())
 
-	if err := Migrate(client); err != nil {
-		return nil, err
-	}
+	// if err := Migrate(client); err != nil {
+	// 	return nil, err
+	// }
 
-	if err := Seed(client, numRows); err != nil {
-		return nil, err
-	}
+	// if err := Seed(client, numRows); err != nil {
+	// 	return nil, err
+	// }
 
 	if err := FetchAll(client); err != nil {
 		return nil, err
 	}
 
-	if err := FilterQuery(client); err != nil {
-		return nil, err
-	}
+	// if err := FilterQuery(client); err != nil {
+	// 	return nil, err
+	// }
 
 	return nil, nil
 }

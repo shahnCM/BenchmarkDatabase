@@ -50,7 +50,7 @@ func FetchAll(client *mongo.Client) error {
 	}
 
 	// Print documents
-	fmt.Printf("\n> Fetched %d rows\n", fetchLimit)
+	fmt.Printf("\n> Requested %d rows\n", fetchLimit)
 	fmt.Printf("> Fetched %d documents\n", len(result))
 	fmt.Println("> Fetch Duration: ", duration)
 

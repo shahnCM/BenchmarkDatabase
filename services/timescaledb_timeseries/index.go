@@ -21,21 +21,21 @@ func Invoke(numRows int) (any, error) {
 		return nil, fmt.Errorf("unable to connect to TimescaleDb: %v", err)
 	}
 
-	if err := Migrate(conn); err != nil {
-		return nil, err
-	}
+	// if err := Migrate(conn); err != nil {
+	// 	return nil, err
+	// }
 
-	if err := Seed(conn, numRows); err != nil {
-		return nil, err
-	}
+	// if err := Seed(conn, numRows); err != nil {
+	// 	return nil, err
+	// }
 
 	if err := FetchAll(conn); err != nil {
 		return nil, err
 	}
 
-	if err := FilterQuery(conn); err != nil {
-		return nil, err
-	}
+	// if err := FilterQuery(conn); err != nil {
+	// 	return nil, err
+	// }
 
 	return nil, nil
 }

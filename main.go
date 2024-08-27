@@ -11,6 +11,7 @@ import (
 	"DbBenchmark/services/cratedb_timeseries"
 	"DbBenchmark/services/mongodb_timeseries"
 	"DbBenchmark/services/questdb_timeseries"
+	"DbBenchmark/services/scylladb"
 	"DbBenchmark/services/timescaledb_timeseries"
 )
 
@@ -22,7 +23,7 @@ func main() {
 	}
 
 	// Define choices for database selection
-	dbChoices := []string{"MongoDb Timeseries", "QuestDb Timeseries", "TimescaleDb Timeseries", "CrateDb Timeseries"}
+	dbChoices := []string{"MongoDb Timeseries", "QuestDb Timeseries", "TimescaleDb Timeseries", "CrateDb Timeseries", "ScyllaDb"}
 
 	// Prompt user to select a database for benchmarking
 	var selectedDB string
@@ -84,12 +85,15 @@ func main() {
 		if result != nil {
 			log.Println(result)
 		}
+	case "ScyllaDb":
+		result, err := scylladb.Invoke(numRows)
+		if err != nil {
+			log.Println(err)
+		}
+		if result != nil {
+			log.Println(result)
+		}
 	default:
 		log.Fatalf("Unsupported database choice: %s", selectedDB)
 	}
-}
-
-func insertIntoQuestDB(rows int) {
-	fmt.Printf("Inserting %d rows into QuestDB Timeseries...\n", rows)
-	// Add your QuestDB insertion logic here
 }
